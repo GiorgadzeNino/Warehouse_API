@@ -1,5 +1,6 @@
 ﻿using BTUProject.DataAccess;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 
 namespace BTUProject
 {
@@ -20,6 +21,12 @@ namespace BTUProject
             services.AddDbContext<WarehouseDbContext>(options =>
                       options.UseSqlServer(Configuration.GetConnectionString("WarehouseDbContext")));
             services.AddTransient<WarehouseDbContext>();
+            // ConfigureServices method
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Warehouse", Version = "v1" });
+            });
+
         }
 
         public async void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -41,7 +48,8 @@ namespace BTUProject
             });
             app.UseSwagger();
 
-            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Lennt v1"));
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WareHouse v1"));
+
             //app.MapWhen(x => !x.Request.Path.Value.StartsWith("/api"), builder =>
             //{
             //    app.Run(async (context) =>

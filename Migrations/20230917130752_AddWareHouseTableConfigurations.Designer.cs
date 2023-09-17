@@ -4,6 +4,7 @@ using BTUProject.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BTUProject.Migrations
 {
     [DbContext(typeof(WarehouseDbContext))]
-    partial class WarehouseDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230917130752_AddWareHouseTableConfigurations")]
+    partial class AddWareHouseTableConfigurations
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -544,85 +546,6 @@ namespace BTUProject.Migrations
                     b.ToTable("WareHouse", (string)null);
                 });
 
-            modelBuilder.Entity("BTUProject.DataAccess.Book", b =>
-                {
-                    b.HasBaseType("BTUProject.DataAccess.Product");
-
-                    b.Property<string>("Author")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("PublishingHouse")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("PublishingYear")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RecommendedAge")
-                        .HasColumnType("int");
-
-                    b.ToTable("Book", (string)null);
-                });
-
-            modelBuilder.Entity("BTUProject.DataAccess.SportInventory", b =>
-                {
-                    b.HasBaseType("BTUProject.DataAccess.Product");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RecommentddedAge")
-                        .HasColumnType("int");
-
-                    b.ToTable("SportInventory", (string)null);
-                });
-
-            modelBuilder.Entity("BTUProject.DataAccess.Toy", b =>
-                {
-                    b.HasBaseType("BTUProject.DataAccess.Product");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Manufacturer")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Material")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RecommendedAge")
-                        .HasColumnType("int");
-
-                    b.ToTable("Toy", (string)null);
-                });
-
             modelBuilder.Entity("BTUProject.DataAccess.Cities", b =>
                 {
                     b.HasOne("BTUProject.DataAccess.Suppliers", null)
@@ -783,33 +706,6 @@ namespace BTUProject.Migrations
                     b.Navigation("Suppliers");
 
                     b.Navigation("Units");
-                });
-
-            modelBuilder.Entity("BTUProject.DataAccess.Book", b =>
-                {
-                    b.HasOne("BTUProject.DataAccess.Product", null)
-                        .WithOne()
-                        .HasForeignKey("BTUProject.DataAccess.Book", "Id")
-                        .OnDelete(DeleteBehavior.ClientCascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("BTUProject.DataAccess.SportInventory", b =>
-                {
-                    b.HasOne("BTUProject.DataAccess.Product", null)
-                        .WithOne()
-                        .HasForeignKey("BTUProject.DataAccess.SportInventory", "Id")
-                        .OnDelete(DeleteBehavior.ClientCascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("BTUProject.DataAccess.Toy", b =>
-                {
-                    b.HasOne("BTUProject.DataAccess.Product", null)
-                        .WithOne()
-                        .HasForeignKey("BTUProject.DataAccess.Toy", "Id")
-                        .OnDelete(DeleteBehavior.ClientCascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("BTUProject.DataAccess.Cities", b =>

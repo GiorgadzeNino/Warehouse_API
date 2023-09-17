@@ -1,18 +1,26 @@
 ﻿namespace BTUProject.DataAccess
 {
-    public class Product
+    public class Product : Base
     {
         public Product()
-        { }
+        {
+            WareHouse = new HashSet<WareHouse>();
+        }
+
+        public Product(int id, string code, string name, int categoryId)
+        {
+            Id = id;
+            Code = code;
+            Name = name;
+            CategoryId = categoryId;
+        }
+
         public int Id { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public int GenderId { get; set; }
-        public string PersonalNumber { get; set; }
-        public DateTime BirthDate { get; set; }
-        public int CityId { get; set; }
-        public int CountryId { get; set; }
-        public string EMail { get; set; }
+        public string Code { get; set; }
+        public string Name { get; set; }
+        public int CategoryId { get; set; }
+        public virtual ProductCategories ProductCategories { get; set; }
+        public ICollection<WareHouse> WareHouse { get; set; }
     }
 
 }

@@ -1,4 +1,6 @@
-﻿namespace BTUProject.DataAccess
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace BTUProject.DataAccess
 {
     public class Customer
     {
@@ -30,6 +32,7 @@
         public DateTime BirthDate { get; set; }
         public int CityId { get; set; }
         public int CountryId { get; set; }
+        [EmailAddress(ErrorMessage = "Invalid email address")]
         public string Email { get; set; }
 
         public virtual Gender Gender { get; set; }

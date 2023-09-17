@@ -30,6 +30,7 @@
         public decimal UnitPrice { get; set; }
         public decimal RealizationPrice { get; set; }
         public virtual Suppliers Suppliers { get; private set; }
+        public virtual Units Units { get; private set; }
         public virtual Product Product { get; set; }
     }
 }

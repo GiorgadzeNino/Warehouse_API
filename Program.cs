@@ -26,6 +26,7 @@
 
 //app.Run();
 
+using BTUProject.DataAccess;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
@@ -42,6 +43,12 @@ namespace BTUProject
         public static void Main(string[] args)
         {
             CreateHostBuilder(args).Build().Run();
+            using (var context = new WarehouseDbContext())
+            {
+                // Call the method to import data from CSV files
+                WarehouseDbContext.ImportDataFromCsvFiles();
+
+            }
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
