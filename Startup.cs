@@ -1,4 +1,6 @@
 ﻿using BTUProject.DataAccess;
+using BTUProject.Interfaces;
+using BTUProject.Service;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
@@ -21,11 +23,16 @@ namespace BTUProject
             services.AddDbContext<WarehouseDbContext>(options =>
                       options.UseSqlServer(Configuration.GetConnectionString("WarehouseDbContext")));
             services.AddTransient<WarehouseDbContext>();
+            services.AddTransient<IGenderAppSevice, GenderAppService>();
+            services.AddTransient<IJwtPasswordInterface, JwtPasswordService>();
+
             // ConfigureServices method
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Warehouse", Version = "v1" });
             });
+            services.AddAutoMapper(typeof(Startup));
+
 
         }
 

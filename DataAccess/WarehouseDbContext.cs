@@ -240,14 +240,14 @@ namespace BTUProject.DataAccess
                 string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
                 string csvFilePath = Path.Combine(baseDirectory, "csvs", "Gender.csv");
 
-                using (var reader = new StreamReader(csvFilePath))
-                    File.ReadAllLines(csvFilePath)
-         .Skip(1) // Skip header row
-         .Select(line => line.Split(','))
-         .Select(fields => new Gender
-         {
-             Name = fields[1],
-         });
+                //       using (var reader = new StreamReader(csvFilePath))
+                //           File.ReadAllLines(csvFilePath)
+                //.Skip(1) // Skip header row
+                //.Select(line => line.Split(','))
+                //.Select(fields => new Gender
+                //{
+                //    Name = fields[1],
+                //});
 
             }
 

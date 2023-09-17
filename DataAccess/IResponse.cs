@@ -1,4 +1,4 @@
-﻿namespace BTUProject
+﻿namespace BTUProject.DataAccess
 {
     public interface IResponse<T>
     {
