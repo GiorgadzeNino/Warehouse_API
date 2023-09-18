@@ -24,7 +24,7 @@ namespace BTUProject
                       options.UseSqlServer(Configuration.GetConnectionString("WarehouseDbContext")));
             services.AddTransient<WarehouseDbContext>();
             services.AddTransient<IGenderAppSevice, GenderAppService>();
-            services.AddTransient<IJwtPasswordInterface, JwtPasswordService>();
+            //services.AddTransient<IJwtPasswordInterface, JwtPasswordService>();
 
             // ConfigureServices method
             services.AddSwaggerGen(c =>

@@ -16,15 +16,12 @@ namespace BTUProject.Service
     {
         private readonly WarehouseDbContext _db;
         private readonly IMapper _mapper;
-        private readonly IJwtPasswordInterface _jwtPasswordService;
         public GenderAppService(
             WarehouseDbContext db,
-            IMapper mapper,
-            IJwtPasswordInterface jwtPasswordInterface)
+            IMapper mapper)
         {
             _db = db;
             _mapper = mapper;
-            _jwtPasswordService = jwtPasswordInterface;
         }
 
         public async Task<IResponse<GenderDto>> Get()
