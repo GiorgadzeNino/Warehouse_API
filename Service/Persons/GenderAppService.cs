@@ -1,14 +1,9 @@
 ﻿
 using AutoMapper;
 using BTUProject.DataAccess;
-using BTUProject.Dto;
+using BTUProject.Dto.Customer;
+using BTUProject.Dto.Gender;
 using BTUProject.Interfaces;
-using Lennt.Dto;
-using Lennt.Dto.Person;
-using Lennt.Services.Interfaces;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace BTUProject.Service
 {
@@ -24,23 +19,47 @@ namespace BTUProject.Service
             _mapper = mapper;
         }
 
-        public async Task<IResponse<GenderDto>> Get()
-        {
-            return new ResponseModel<GenderDto>()
-            {
-                Data =
-                _mapper.Map<GenderDto>(_db.Gender.FirstOrDefault(x => x.Id >= 0))
-            };
-        }
-
-        //public async Task<IResponse<GenderDto>> GetPersonDetails(long id)
+        //public async Task<IResponse<GenderDto>> Get()
         //{
         //    return new ResponseModel<GenderDto>()
         //    {
         //        Data =
-        //        _mapper.Map<GenderDto>(_db.Persons.FirstOrDefault(x => x.Id == id))
+        //        _mapper.Map<GenderDto>(_db.Gender.FirstOrDefault(x => x.Id >= 0))
         //    };
         //}
+
+        public async Task<IResponse<GenderDto>> GetPersonDetails(long id)
+        {
+            return new ResponseModel<GenderDto>()
+            {
+                Data =
+                _mapper.Map<GenderDto>(_db.Gender.FirstOrDefault(x => x.Id == id))
+            };
+        }
+
+        public async Task<IResponse<bool>> CreateCustomer(CustomerDto input)
+        {
+            CustomerDto c = new CustomerDto();
+            var customer = _mapper.Map<Customer>(input);
+            customer = _db.Customer.FirstOrDefault();
+
+            //var createPersonFirstname = _db.Customer.FirstOrDefault(x => x.Id == vacancy.CreatePersonId).Firstname;
+            //var createPersonLastname = _db.Persons.FirstOrDefault(x => x.Id == vacancy.CreatePersonId).Lastname;
+            //customer.CreatePersonName = createPersonFirstname + ' ' + createPersonLastname;
+
+            //_db.Add(vacancy);
+            //if (userId != 0)
+            //{
+            //    vp.IsApproved = false;
+            //    vp.PersonId = userId;
+            //    vacancy.AddPerson(_mapper.Map<VacancyPerson>(vp));
+            //}
+            _db.SaveChanges();
+            return new ResponseModel<bool>() { Data = true };
+
+        }
+
+
         //public async Task<IResponse<List<GenderWithIdDto>>> GetPersonList(int? categoryId, string? location, string? skills)
         //{
         //    return new ResponseModel<List<GenderWithIdDto>>()

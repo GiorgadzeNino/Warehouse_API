@@ -65,7 +65,9 @@ namespace BTUProject.DataAccess
 
             #region Countries
             builder.Entity<Countries>().ToTable("Countries");
-            builder.Entity<Countries>().HasKey(e => e.Id);
+            builder.Entity<Countries>().HasKey(e => e.Id)
+           .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
             #endregion
 
             #region Customer
@@ -186,6 +188,11 @@ namespace BTUProject.DataAccess
             builder.Entity<PhoneTypes>().HasKey(e => e.Id);
             #endregion
 
+            #region Gender
+            builder.Entity<Gender>().ToTable("Gender");
+            builder.Entity<Gender>().HasKey(e => e.Id);
+            #endregion
+
             #region CustomersPhoneNumbers
             builder.Entity<CustomersPhoneNumbers>().ToTable("CustomersPhoneNumbers");
             builder.Entity<CustomersPhoneNumbers>().HasKey(e => e.Id);
@@ -233,25 +240,25 @@ namespace BTUProject.DataAccess
 
         }
 
-        public static void ImportDataFromCsvFiles()
-        {
-            using (var context = new WarehouseDbContext())
-            {
-                string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
-                string csvFilePath = Path.Combine(baseDirectory, "csvs", "Gender.csv");
+        //public static void ImportDataFromCsvFiles()
+        //{
+        //    using (var context = new WarehouseDbContext())
+        //    {
+        //        //string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+        //        //string csvFilePath = Path.Combine(baseDirectory, "csvs", "Gender.csv");
 
-                //       using (var reader = new StreamReader(csvFilePath))
-                //           File.ReadAllLines(csvFilePath)
-                //.Skip(1) // Skip header row
-                //.Select(line => line.Split(','))
-                //.Select(fields => new Gender
-                //{
-                //    Name = fields[1],
-                //});
+        //        //       using (var reader = new StreamReader(csvFilePath))
+        //        //           File.ReadAllLines(csvFilePath)
+        //        //.Skip(1) // Skip header row
+        //        //.Select(line => line.Split(','))
+        //        //.Select(fields => new Gender
+        //        //{
+        //        //    Name = fields[1],
+        //        //});
 
-            }
+        //    }
 
-        }
+        //}
 
     }
 

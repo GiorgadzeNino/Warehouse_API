@@ -1,5 +1,5 @@
 ﻿using System;
-namespace Lennt.Dto.Person
+namespace BTUProject.Dto.Gender
 {
     public class GenderWithIdDto
     {

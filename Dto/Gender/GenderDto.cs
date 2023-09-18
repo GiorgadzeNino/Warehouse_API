@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BTUProject.Dto
+namespace BTUProject.Dto.Gender
 {
     public class GenderDto
     {

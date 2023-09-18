@@ -3,6 +3,7 @@ using BTUProject.Interfaces;
 using BTUProject.Service;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using System.Reflection;
 
 namespace BTUProject
 {
@@ -23,8 +24,8 @@ namespace BTUProject
             services.AddDbContext<WarehouseDbContext>(options =>
                       options.UseSqlServer(Configuration.GetConnectionString("WarehouseDbContext")));
             services.AddTransient<WarehouseDbContext>();
-            services.AddTransient<IGenderAppSevice, GenderAppService>();
-            //services.AddTransient<IJwtPasswordInterface, JwtPasswordService>();
+            services.AddTransient<ICustomerAppSevice, CustomerAppService>();
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
             // ConfigureServices method
             services.AddSwaggerGen(c =>

@@ -2,7 +2,7 @@
 
 namespace BTUProject.DataAccess
 {
-    public class Customer
+    public class Customer : Base
     {
         public Customer()
         {

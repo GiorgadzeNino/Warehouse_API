@@ -42,8 +42,28 @@ namespace BTUProject
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
-            
+            var host = CreateHostBuilder(args).Build();
+
+            using (var scope = host.Services.CreateScope())
+            {
+                try
+                {
+                    //AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
+                    var context = scope.ServiceProvider.GetService<WarehouseDbContext>();
+                    WarehouseDbInitializer.Initialize(context);
+
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                }
+
+
+            }
+
+            host.Run();
+
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
@@ -53,7 +73,5 @@ namespace BTUProject
                     webBuilder.UseStartup<Startup>();
 
                 });
-
-
     }
 }
