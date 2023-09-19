@@ -42,12 +42,12 @@ namespace BTUProject.Controllers
             return await result;
         }
 
-        //[HttpPut]
-        //public async Task<IResponse<bool>> UpdateOrders([FromBody] OrdersWithIdDto input)
-        //{
-        //    var result = _Service.UpdateOrders(input);
-        //    return await result;
-        //}
+        [HttpPut]
+        public async Task<IResponse<bool>> AddDiscountOrder([FromBody] DiscountOrderDto model)
+        {
+            var result = _Service.AddDiscountOrder(model);
+            return await result;
+        }
 
         //[HttpDelete]
         //public async Task<IResponse<int>> DeleteOrders([FromQuery] long id)

@@ -87,6 +87,30 @@ namespace BTUProject.Service
             }
         }
 
+        public async Task<IResponse<bool>> AddDiscountOrder(DiscountOrderDto model)
+        {
+            try
+            {
+                var orderItem = _db.OrderItems.FirstOrDefault(x => x.Id == model.orderItemId && !x.IsDeleted);
+                if (orderItem != null)
+                {
+                    orderItem.IsDiscounted = true;
+                    orderItem.DiscountPrice = model.discount;
+                };
+                _db.Update(orderItem);
+                _db.SaveChanges();
+
+                return new ResponseModel<bool>() { Data = true };
+            }
+            catch (ArgumentException ex)
+            {
+                return new ResponseModel<bool>() { Error = ex.Message, Data = false };
+            }
+            catch (Exception ex)
+            {
+                return new ResponseModel<bool>() { Error = "An error occurred while creating the order.", Data = false };
+            }
+        }
 
     }
 }

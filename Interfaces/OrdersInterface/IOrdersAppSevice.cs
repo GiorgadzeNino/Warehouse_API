@@ -11,10 +11,7 @@ namespace BTUProject.Interfaces
         Task<IResponse<OrderDetailsDto>> GetOrdersDetails(int id);
         Task<IResponse<bool>> CreateOrder(OrderDto model);
         Task<IResponse<bool>> CreateOrderItem(OrderItemDto model);
-        //Task<IResponse<int>> DeleteCustomer(long id);
-        //Task<IResponse<bool>> MakeCustomerRelationShip(MakeRelationshipDto model);
-        //Task<IResponse<bool>> UpdateCustomerRelationShip(MakeRelationshipWithIdDto model);
-        //Task<IResponse<int>> DeleteCustomerRelationShip(int id);
+        Task<IResponse<bool>> AddDiscountOrder(DiscountOrderDto model);
 
     }
 }
