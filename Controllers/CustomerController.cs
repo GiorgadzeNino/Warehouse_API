@@ -30,7 +30,7 @@ namespace BTUProject.Controllers
         }
 
         [HttpGet]
-        public async Task<IResponse<CustomerDto>> GetCustomerDetailes(long id)
+        public async Task<IResponse<CustomerDto>> GetCustomerDetails(long id)
         {
             var result = _Service.GetCustomerDetails(id);
             return await result;

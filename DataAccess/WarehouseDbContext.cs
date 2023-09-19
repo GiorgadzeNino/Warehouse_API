@@ -31,6 +31,7 @@ namespace BTUProject.DataAccess
         public virtual DbSet<SportInventory> SportInventory { get; set; }
         public virtual DbSet<Book> Book { get; set; }
         public virtual DbSet<Gender> Gender { get; set; }
+        public virtual DbSet<Suppliers> Suppliers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -65,8 +66,7 @@ namespace BTUProject.DataAccess
 
             #region Countries
             builder.Entity<Countries>().ToTable("Countries");
-            builder.Entity<Countries>().HasKey(e => e.Id)
-           .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+            builder.Entity<Countries>().HasKey(e => e.Id);
 
             #endregion
 
@@ -75,9 +75,7 @@ namespace BTUProject.DataAccess
             builder.Entity<Customer>().HasKey(e => e.Id);
             builder.Entity<Customer>().Property(c => c.Id)
             .IsRequired()
-            .HasAnnotation("MinValue", 1)
-            // Specify that the CustomerId property is the primary key
-            .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+            .HasAnnotation("MinValue", 1);
 
             builder.Entity<Customer>()
                 .Property(c => c.FirstName)
@@ -132,13 +130,10 @@ namespace BTUProject.DataAccess
             builder.Entity<Product>().ToTable("Product");
             builder.Entity<Product>().HasKey(e => e.Id);
             builder.Entity<Product>()
-               .Property(c => c.Code) // Set data type to nvarchar(11) for 11-character text
+               .Property(c => c.Code) 
                .IsRequired();
             builder.Entity<Product>()
-                 .Property(c => c.Id) // Set data type to nvarchar(11) for 11-character text
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-            builder.Entity<Product>()
-                .Property(c => c.Name) // Set data type to nvarchar(11) for 11-character text
+                .Property(c => c.Name) 
                 .IsRequired();
             builder.Entity<Product>().HasOne(d => d.ProductCategories)
                 .WithMany(d => d.Product)
@@ -154,8 +149,6 @@ namespace BTUProject.DataAccess
             #region WareHouse
             builder.Entity<WareHouse>().ToTable("WareHouse");
             builder.Entity<WareHouse>().HasKey(e => e.Id);
-            builder.Entity<WareHouse>().Property(c => c.Id) // Set data type to nvarchar(11) for 11-character text
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
             builder.Entity<WareHouse>().Property(w => w.RealizationPrice)
                 .HasColumnType("decimal(18, 2)");
             builder.Entity<WareHouse>()

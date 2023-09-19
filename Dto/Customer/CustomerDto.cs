@@ -12,7 +12,6 @@ namespace BTUProject.Dto.Customer
         public int CityId { get; set; }
         public int CountryId { get; set; }
         public string Email { get; set; }
-        public int? Id { get; set; }
-
+     
     }
 }

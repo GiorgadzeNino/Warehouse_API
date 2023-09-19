@@ -25,6 +25,7 @@ namespace BTUProject
                       options.UseSqlServer(Configuration.GetConnectionString("WarehouseDbContext")));
             services.AddTransient<WarehouseDbContext>();
             services.AddTransient<ICustomerAppSevice, CustomerAppService>();
+            services.AddScoped<IProductsAppSevice, ProductsAppService>();
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
             // ConfigureServices method

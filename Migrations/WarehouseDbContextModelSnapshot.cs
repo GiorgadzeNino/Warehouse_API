@@ -277,7 +277,7 @@ namespace BTUProject.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("OrderItems");
+                    b.ToTable("OrderItems", (string)null);
                 });
 
             modelBuilder.Entity("BTUProject.DataAccess.Orders", b =>
@@ -314,7 +314,7 @@ namespace BTUProject.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Orders", (string)null);
                 });
 
             modelBuilder.Entity("BTUProject.DataAccess.PhoneTypes", b =>

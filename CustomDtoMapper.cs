@@ -2,6 +2,7 @@
 using BTUProject.DataAccess;
 using BTUProject.Dto;
 using BTUProject.Dto.Customer;
+using BTUProject.Dto.Products;
 
 namespace BTUProject.API
 {
@@ -12,7 +13,10 @@ namespace BTUProject.API
             //CreateMap<Gender, GenderDto>().ReverseMap();
             CreateMap<Customer, CustomerDto>().ReverseMap();
             CreateMap<Customer, CustomerWithIdDto>().ReverseMap();
-            //CreateMap<Vacancy, VacancyDto>().ReverseMap();
+            CreateMap<Product, ProductsDto>().ReverseMap();
+            CreateMap<Product, ProductsWithIdDto>().ReverseMap();
+            CreateMap<Product, ProductDetailsDto>().ReverseMap();
+
             //CreateMap<Vacancy, GetVacancyDto>().ReverseMap();
             //CreateMap<VacancyPerson, VacancyPersonDto>().ReverseMap();
         }
