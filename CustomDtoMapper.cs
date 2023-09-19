@@ -21,6 +21,7 @@ namespace BTUProject.API
             CreateMap<MakeRelationshipWithIdDto,CustomersRelationships>().ReverseMap();
             CreateMap<Orders, OrderDto>().ReverseMap();
             CreateMap<OrderItems, OrderItemDto>().ReverseMap();
+            CreateMap<OrderItems, OrderDetailsDto>();
 
         }
     }

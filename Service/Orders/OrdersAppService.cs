@@ -25,19 +25,21 @@ namespace BTUProject.Service
         }
 
 
-        //public async Task<IResponse<OrdersDto>> GetOrdersDetails(long id)
-        //{
-        //    var customer = _db.Orders.FirstOrDefault(x => x.Id == id && !x.IsDeleted);
-        //    if (customer == null)
-        //    {
-        //        // Handle the case where the customer with the given id doesn't exist
-        //        return new ResponseModel<OrdersDto> { Error = "Orders not found", Data = null };
-        //    }
+        public async Task<IResponse<OrderDetailsDto>> GetOrdersDetails(int id)
+        {
+            var orderItem = _db.OrderItems.FirstOrDefault(x => x.ProductId == id && !x.IsDeleted);
+            if (orderItem == null)
+            {
+                // Handle the case where the customer with the given id doesn't exist
+                return new ResponseModel<OrderDetailsDto> { Error = "Orders not found", Data = null };
+            }
 
-        //    var customerDto = _mapper.Map<OrdersDto>(customer);
+            var orderItemDto = _mapper.Map<OrderDetailsDto>(orderItem);
+            var realizationPrice = orderItem.Product.WareHouse.FirstOrDefault(x => x.ProductId == orderItem.ProductId).RealizationPrice;
+            orderItemDto.Value = (realizationPrice - orderItem.DiscountPrice) * orderItem.Quantity;
 
-        //    return new ResponseModel<OrdersDto> { Data = customerDto };
-        //}
+            return new ResponseModel<OrderDetailsDto> { Data = orderItemDto };
+        }
 
         public async Task<IResponse<bool>> CreateOrder(OrderDto model)
         {
@@ -84,71 +86,6 @@ namespace BTUProject.Service
                 return new ResponseModel<bool>() { Error = "An error occurred while creating the order item.", Data = false };
             }
         }
-
-        //public async Task<IResponse<bool>> UpdateOrders(OrdersWithIdDto input)
-        //{
-        //    try
-        //    {
-        //        var customer = _db.Orders.FirstOrDefault(x => x.Id == input.Id && !x.IsDeleted);
-        //        if (customer != null)
-        //        {
-        //            _mapper.Map(input, customer);
-        //        }
-
-
-        //        if (DateTime.Today.AddYears(-18) < customer.BirthDate)
-        //        {
-        //            throw new ArgumentException("Orders must be at least 18 years old.");
-        //        }
-
-
-        //        string pattern = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
-
-        //        // Use Regex.IsMatch to check if the email matches the pattern
-        //        var emailIsValid = Regex.IsMatch(input.Email, pattern);
-        //        if (!emailIsValid)
-        //        {
-        //            throw new ArgumentException("Invalid email address format.", nameof(input.Email));
-        //        }
-        //        else
-        //        {
-        //            _db.Update(customer);
-        //            _db.SaveChanges();
-        //            return new ResponseModel<bool>() { Data = true };
-        //        }
-
-        //        //customer.IsDeleted = false;
-        //        //_db.Add(customer);
-        //        //_db.SaveChanges();
-
-        //        //return new ResponseModel<bool>() { Data = true };
-        //    }
-        //    catch (ArgumentException ex)
-        //    {
-        //        return new ResponseModel<bool>() { Error = ex.Message, Data = false };
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return new ResponseModel<bool>() { Error = "An error occurred while creating the customer.", Data = false };
-        //    }
-
-
-        //}
-
-        //public async Task<IResponse<int>> DeleteOrders(long id)
-        //{
-        //    var customer = _db.Orders.FirstOrDefault(x => x.Id == id && !x.IsDeleted);
-        //    if (customer == null)
-        //    {
-        //        return new ResponseModel<int> { Error = "Orders not found", Data = 0 };
-        //    }
-        //    customer.IsDeleted = true;
-        //    _db.Update(customer);
-        //    _db.SaveChanges();
-
-        //    return new ResponseModel<int> { Error = null, Data = customer.Id };
-
-        //}
 
 
     }

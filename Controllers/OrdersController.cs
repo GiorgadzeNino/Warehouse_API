@@ -21,6 +21,13 @@ namespace BTUProject.Controllers
             _Service = service;
         }
 
+        [HttpGet]
+        public async Task<IResponse<OrderDetailsDto>> GetOrdersDetails(int id)
+        {
+            var result = _Service.GetOrdersDetails(id);
+            return await result;
+        }
+
         [HttpPost]
         public async Task<IResponse<bool>> CreateOrder([FromBody] OrderDto model)
         {

@@ -8,7 +8,7 @@ namespace BTUProject.Interfaces
 {
     public interface IOrdersAppSevice
     {
-        //Task<IResponse<CustomerDto>> GetCustomerDetails(long id);
+        Task<IResponse<OrderDetailsDto>> GetOrdersDetails(int id);
         Task<IResponse<bool>> CreateOrder(OrderDto model);
         Task<IResponse<bool>> CreateOrderItem(OrderItemDto model);
         //Task<IResponse<int>> DeleteCustomer(long id);
