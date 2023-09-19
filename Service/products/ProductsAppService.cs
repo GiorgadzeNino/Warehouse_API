@@ -38,12 +38,34 @@ namespace BTUProject.Service
             return new ResponseModel<ProductDetailsDto> { Data = productDto };
         }
 
+        public async Task<IResponse<bool>> GetProductIsExpired(long id)
+        {
+            var warehouse = _db.WareHouse.FirstOrDefault(x => x.ProductId == id && !x.IsDeleted);
+
+            if (warehouse == null)
+            {
+                // Handle the case where the product with the given id doesn't exist
+                return new ResponseModel<bool> { Error = "Product not found", Data = false };
+            }
+
+            if (DateTime.Now < warehouse.ExpiryDate)
+            {
+                return new ResponseModel<bool> { Data = true };
+            }
+            else
+            {
+                return new ResponseModel<bool> { Data = false };
+            }
+
+        }
+
+
         public async Task<IResponse<bool>> AddProductInWarehouse(AddProductToWarehouseDto input)
         {
             try
             {
                 var warehouse = _mapper.Map<WareHouse>(input);
-                warehouse.Product.Id = input.ProductId;
+                warehouse.ProductId = input.ProductId;
                 warehouse.IsDeleted = false;
                 _db.Add(warehouse);
                 _db.SaveChanges();
@@ -54,9 +76,9 @@ namespace BTUProject.Service
             {
                 return new ResponseModel<bool>() { Error = ex.Message, Data = false };
             }
-            catch (Exception ex)
+
             {
-                return new ResponseModel<bool>() { Error = "An error occurred while creating the product.", Data = false };
+                return new ResponseModel<bool>() { Error = "An error occurred while add productin warehouse.", Data = false };
             }
         }
 
@@ -109,37 +131,60 @@ namespace BTUProject.Service
 
         }
 
+        public async Task<IResponse<List<ProductsWithIdDto>>> GetProductsListWithTwoWeeksExpireDate(int days)
+        {
+
+            var products = _db.WareHouse.Where(x => DateTime.Now.AddDays(days) > x.ExpiryDate && !x.IsDeleted).Select(x=>x.Product).ToList();
+            var responseList =new List<ProductsWithIdDto>();
+            foreach (var product in products)
+            {
+                var model = new ProductsWithIdDto
+                {
+                    Id = product.Id,
+                    Code = product.Code,
+                    Name = product.Name,
+                    CategoryId = product.CategoryId
+                };
+                responseList.Add(model);
+            }
+            return new ResponseModel<List<ProductsWithIdDto>>()
+            {
+                Data = responseList
+                   
+            };
+
+        }
 
         //public async Task<IResponse<List<ProductsWithIdDto>>> GetProductsList(int? genderId, string? personalNumber, string? email, int? cityId, int pageNumber, int pageSize)
         //{
-        //var query = _db.Product
-        //    .AsNoTracking()
-        // .Where(x =>
-        //     !x.IsDeleted &&
-        //     (genderId != null && x.GenderId == genderId) &&
-        //     (personalNumber != null && x.PersonalNumber == personalNumber) &&
-        //     (email != null && x.Email == email) &&
-        //     (cityId != null && x.Cities.Id == cityId))
-        // .OrderBy(x => x.Id);
+        //    var query = _db.Product
+        //     .Where(x =>
+        //         !x.IsDeleted &&
+        //         (genderId != null && x.GenderId == genderId) &&
+        //         (personalNumber != null && x.PersonalNumber == personalNumber) &&
+        //         (email != null && x.Email == email) &&
+        //         (cityId != null && x.Cities.Id == cityId))
+        //     .OrderBy(x => x.Id);
 
-        //int recordsToSkip = (pageNumber - 1) * pageSize;
+        //    int recordsToSkip = (pageNumber - 1) * pageSize;
 
-        //// Apply paging to the query
-        //var pagedQuery = query.Skip(recordsToSkip).Take(pageSize);
+        //    // Apply paging to the query
+        //    var pagedQuery = query.Skip(recordsToSkip).Take(pageSize);
 
-        //// Execute the query and retrieve the results
-        //var results = pagedQuery.ToList();
+        //    // Execute the query and retrieve the results
+        //    var results = pagedQuery.ToList();
 
-        //// Map the results to DTOs
-        //var dtos = _mapper.Map<List<ProductsWithIdDto>>(results);
+        //    // Map the results to DTOs
+        //    var dtos = _mapper.Map<List<ProductsWithIdDto>>(results);
 
-        //// Return the paged results
-        //return new ResponseModel<List<ProductsWithIdDto>>()
-        //{
-        //    Data = dtos
-        //};
+        //    // Return the paged results
+        //    return new ResponseModel<List<ProductsWithIdDto>>()
+        //    {
+        //        Data = dtos
+        //    };
+        //}
+
     }
-
 }
 
 

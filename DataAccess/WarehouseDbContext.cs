@@ -32,6 +32,7 @@ namespace BTUProject.DataAccess
         public virtual DbSet<Book> Book { get; set; }
         public virtual DbSet<Gender> Gender { get; set; }
         public virtual DbSet<Suppliers> Suppliers { get; set; }
+        public virtual DbSet<WareHouse> WareHouse { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -200,6 +201,21 @@ namespace BTUProject.DataAccess
            .HasForeignKey(r => r.StartCustomerId)
            .OnDelete(DeleteBehavior.NoAction);
 
+
+            builder.Entity<CustomersRelationships>().HasOne(d => d.StartCustomer)
+                .WithMany(d => d.StartCustomersRelationships)
+                .HasForeignKey(d => d.StartCustomerId)
+                .HasConstraintName("FK_CustomersRelationships_Customer_StartCustomerId");
+
+            builder.Entity<CustomersRelationships>().HasOne(d => d.EndCustomer)
+               .WithMany(d => d.EndCustomersRelationships)
+               .HasForeignKey(d => d.EndCustomerId)
+               .HasConstraintName("FK_CustomersRelationships_Customer_EndCustomerId");
+
+            builder.Entity<CustomersRelationships>().HasOne(d => d.RelationshipTypes)
+               .WithMany(d => d.CustomersRelationships)
+               .HasForeignKey(d => d.RelationshipTypeId)
+               .HasConstraintName("FK_CustomersRelationships_RelationshipTypes_RelationshipTypeId");
             #endregion
 
             #region RelationshipTypes

@@ -2,7 +2,6 @@
 using BTUProject.Dto;
 using BTUProject.Dto.Products;
 using BTUProject.Interfaces;
-using Lennt.Services.Interfaces;
 //using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
@@ -36,10 +35,32 @@ namespace BTUProject.Controllers
             return await result;
         }
 
+        [HttpGet]
+        public async Task<IResponse<bool>> GetProductIsExpired(long id)
+        {
+            var result = _Service.GetProductIsExpired(id);
+            return await result;
+        }
+
+        [HttpGet]
+        public async Task<IResponse<List<ProductsWithIdDto>>> GetProductsListWithTwoWeeksExpireDate(int days)
+        {
+            var result = _Service.GetProductsListWithTwoWeeksExpireDate(days);
+            return await result;
+        }
+
+
         [HttpPost]
         public async Task<IResponse<bool>> CreateProduct([FromBody] ProductsDto input)
         {
             var result = _Service.CreateProduct(input);
+            return await result;
+        }
+
+        [HttpPost]
+        public async Task<IResponse<bool>> AddProductInWarehouse([FromBody] AddProductToWarehouseDto input)
+        {
+            var result = _Service.AddProductInWarehouse(input);
             return await result;
         }
 

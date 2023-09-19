@@ -2,7 +2,6 @@
 using BTUProject.Dto;
 using BTUProject.Dto.Customer;
 using BTUProject.Interfaces;
-using Lennt.Services.Interfaces;
 //using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
@@ -57,6 +56,27 @@ namespace BTUProject.Controllers
             return await result;
         }
 
+        [HttpPost]
+        public async Task<IResponse<bool>> MakeRelationships([FromBody] MakeRelationshipDto model)
+        {
+
+            var result = _Service.MakeCustomerRelationShip(model);
+            return await result;
+        }
+
+        [HttpPut]
+        public async Task<IResponse<bool>> UpdateCustomerRelationships([FromBody] MakeRelationshipWithIdDto model)
+        {
+            var result = _Service.UpdateCustomerRelationShip(model);
+            return await result;
+        }
+
+        [HttpDelete]
+        public async Task<IResponse<int>> DeleteCustomerRelationShip([FromQuery] int id)
+        {
+            var result = _Service.DeleteCustomerRelationShip(id);
+            return await result;
+        }
 
     }
 }

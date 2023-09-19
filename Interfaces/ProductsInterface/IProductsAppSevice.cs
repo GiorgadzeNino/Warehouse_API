@@ -12,10 +12,12 @@ namespace BTUProject.Interfaces
         //Task<BTUProject.DataAccess.IResponse<string>> Login(LoginDto input);
         //Task<IResponse<List<ProductsWithIdDto>>> GetProductsList(int? genderId, string? personalNumber, string? email, int? cityId, int pageNumber, int pageSize);
         Task<IResponse<ProductDetailsDto>> GetProductDetails(long id);
+        Task<IResponse<bool>> GetProductIsExpired(long id);
         Task<IResponse<bool>> CreateProduct(ProductsDto input);
+        Task<IResponse<bool>> AddProductInWarehouse(AddProductToWarehouseDto input);
         Task<IResponse<bool>> UpdateProduct(ProductsWithIdDto input);
         Task<IResponse<int>> DeleteProduct(long id);
-
+        Task<IResponse<List<ProductsWithIdDto>>> GetProductsListWithTwoWeeksExpireDate(int days);
         //Task<BTUProject.DataAccess.IResponse<bool>> Update(PersonDto input);
 
     }

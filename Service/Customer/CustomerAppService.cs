@@ -105,11 +105,11 @@ namespace BTUProject.Service
                     return new ResponseModel<bool>() { Data = true };
                 }
 
-                customer.IsDeleted = false;
-                _db.Add(customer);
-                _db.SaveChanges();
+                //customer.IsDeleted = false;
+                //_db.Add(customer);
+                //_db.SaveChanges();
 
-                return new ResponseModel<bool>() { Data = true };
+                //return new ResponseModel<bool>() { Data = true };
             }
             catch (ArgumentException ex)
             {
@@ -137,7 +137,6 @@ namespace BTUProject.Service
             return new ResponseModel<int> { Error = null, Data = customer.Id };
 
         }
-
 
         public async Task<IResponse<List<CustomerWithIdDto>>> GetCustomersList(int? genderId, string? personalNumber, string? email, int? cityId, int pageNumber, int pageSize)
         {
@@ -167,6 +166,75 @@ namespace BTUProject.Service
             {
                 Data = dtos
             };
+        }
+
+        public async Task<IResponse<bool>> MakeCustomerRelationShip(MakeRelationshipDto model)
+        {
+            try
+            {
+                var customersRelationShips = new CustomersRelationships
+                {
+                    StartCustomerId = model.StartCustomerId,
+                    EndCustomerId = model.EndCustomerId,
+                    RelationshipTypeId = model.RelationShipTypeId,
+                    Comment = model.Comment,
+                    IsDeleted = false,
+                    IsActive = true
+                };
+                _db.Add(customersRelationShips);
+                _db.SaveChanges();
+
+                return new ResponseModel<bool>() { Data = true };
+            }
+            catch (ArgumentException ex)
+            {
+                return new ResponseModel<bool>() { Error = ex.Message, Data = false };
+            }
+            catch (Exception ex)
+            {
+                return new ResponseModel<bool>() { Error = "An error occurred while creating the relationships.", Data = false };
+            }
+        }
+
+        public async Task<IResponse<bool>> UpdateCustomerRelationShip(MakeRelationshipWithIdDto model)
+        {
+            try
+            {
+
+                var customersRelationShips = _db.CustomersRelationships.FirstOrDefault(x => x.Id == model.Id && !x.IsDeleted);
+                if (customersRelationShips != null)
+                {
+                    _mapper.Map(model, customersRelationShips);
+                }
+
+                _db.Update(customersRelationShips);
+                _db.SaveChanges();
+
+                return new ResponseModel<bool>() { Data = true };
+            }
+            catch (ArgumentException ex)
+            {
+                return new ResponseModel<bool>() { Error = ex.Message, Data = false };
+            }
+            catch (Exception ex)
+            {
+                return new ResponseModel<bool>() { Error = "An error occurred while updating the relationships.", Data = false };
+            }
+        }
+
+        public async Task<IResponse<int>> DeleteCustomerRelationShip(int id)
+        {
+            var customersRelationships = _db.CustomersRelationships.FirstOrDefault(x => x.Id == id && !x.IsDeleted);
+            if (customersRelationships == null)
+            {
+                return new ResponseModel<int> { Error = "Customer relationship not found", Data = 0 };
+            }
+            customersRelationships.IsDeleted = true;
+            _db.Update(customersRelationships);
+            _db.SaveChanges();
+
+            return new ResponseModel<int> { Error = null, Data = customersRelationships.Id };
+
         }
 
     }
