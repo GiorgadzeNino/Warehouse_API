@@ -2,6 +2,7 @@
 using BTUProject.DataAccess;
 using BTUProject.Dto;
 using BTUProject.Dto.Customer;
+using BTUProject.Dto.Orders;
 using BTUProject.Dto.Products;
 
 namespace BTUProject.API
@@ -18,6 +19,9 @@ namespace BTUProject.API
             CreateMap<AddProductToWarehouseDto, WareHouse>().ReverseMap();
             CreateMap<ProductsWithIdDto, WareHouse>().ReverseMap();
             CreateMap<MakeRelationshipWithIdDto,CustomersRelationships>().ReverseMap();
+            CreateMap<Orders, OrderDto>().ReverseMap();
+            CreateMap<OrderItems, OrderItemDto>().ReverseMap();
+
         }
     }
 }

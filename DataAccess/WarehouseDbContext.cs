@@ -17,6 +17,7 @@ namespace BTUProject.DataAccess
         }
 
         public virtual DbSet<Orders> Orders { get; set; }
+        public virtual DbSet<OrderItems> OrderItems { get; set; }
         public virtual DbSet<Customer> Customer { get; set; }
         public virtual DbSet<Cities> Cities { get; set; }
         public virtual DbSet<Countries> Countries { get; set; }
@@ -131,10 +132,10 @@ namespace BTUProject.DataAccess
             builder.Entity<Product>().ToTable("Product");
             builder.Entity<Product>().HasKey(e => e.Id);
             builder.Entity<Product>()
-               .Property(c => c.Code) 
+               .Property(c => c.Code)
                .IsRequired();
             builder.Entity<Product>()
-                .Property(c => c.Name) 
+                .Property(c => c.Name)
                 .IsRequired();
             builder.Entity<Product>().HasOne(d => d.ProductCategories)
                 .WithMany(d => d.Product)

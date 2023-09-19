@@ -26,6 +26,7 @@ namespace BTUProject
             services.AddTransient<WarehouseDbContext>();
             services.AddTransient<ICustomerAppSevice, CustomerAppService>();
             services.AddScoped<IProductsAppSevice, ProductsAppService>();
+            services.AddScoped<IOrdersAppSevice, OrdersAppService>();
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
             // ConfigureServices method
