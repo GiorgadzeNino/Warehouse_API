@@ -40,6 +40,8 @@ namespace BTUProject.DataAccess
             base.OnModelCreating(builder);
 
             #region OrderItems
+            builder.Entity<OrderItems>().ToTable("OrderItems");
+            builder.Entity<OrderItems>().HasKey(e => e.Id);
             builder.Entity<OrderItems>()
       .Property(o => o.DiscountPrice)
       .HasColumnType("decimal(18, 2)"); // Specify the appropriate precision and scale.
@@ -51,10 +53,18 @@ namespace BTUProject.DataAccess
             builder.Entity<Orders>()
                 .Property(o => o.TotalAmount)
                 .HasColumnType("decimal(18, 2)"); // Specify the appropriate precision and scale.
-
+            builder.Entity<OrderItems>().HasOne(d => d.Orders)
+           .WithMany(d => d.OrderItems)
+           .HasForeignKey(d => d.OrderId)
+           .HasConstraintName("FK_OrderItems_Orders_OrderId");
 
             #endregion
 
+            #region Orders
+            builder.Entity<Orders>().ToTable("Orders");
+            builder.Entity<Orders>().HasKey(e => e.Id);
+
+            #endregion
             #region Units
             builder.Entity<Units>().ToTable("Units");
             builder.Entity<Units>().HasKey(e => e.Id);
