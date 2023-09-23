@@ -53,10 +53,11 @@ namespace BTUProject.DataAccess
             builder.Entity<Orders>()
                 .Property(o => o.TotalAmount)
                 .HasColumnType("decimal(18, 2)"); // Specify the appropriate precision and scale.
+
             builder.Entity<OrderItems>().HasOne(d => d.Orders)
-           .WithMany(d => d.OrderItems)
-           .HasForeignKey(d => d.OrderId)
-           .HasConstraintName("FK_OrderItems_Orders_OrderId");
+                .WithMany(d => d.OrderItems)
+                .HasForeignKey(d => d.OrderId)
+                .HasConstraintName("FK_OrderItems_Orders_OrderId");
 
             #endregion
 

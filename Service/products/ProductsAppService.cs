@@ -26,14 +26,28 @@ namespace BTUProject.Service
 
         public async Task<IResponse<ProductDetailsDto>> GetProductDetails(long id)
         {
+            var warehouse = _db.WareHouse.FirstOrDefault(x => x.ProductId == id && !x.IsDeleted);
+
             var product = _db.Product.FirstOrDefault(x => x.Id == id && !x.IsDeleted);
+            var newProduct = new ProductDetailsDto();
             if (product == null)
             {
                 // Handle the case where the product with the given id doesn't exist
                 return new ResponseModel<ProductDetailsDto> { Error = "Products not found", Data = null };
+
             }
 
-            var productDto = _mapper.Map<ProductDetailsDto>(product);
+            if (warehouse != null)
+            {
+                newProduct.UnitId = warehouse.UnitId;
+                newProduct.Name = product.Name;
+                newProduct.Code = product.Code;
+                newProduct.Price = warehouse.UnitPrice;
+                newProduct.Quantity = warehouse.Quantity;
+                newProduct.CategoryId = product.CategoryId;
+            }
+
+            var productDto = _mapper.Map<ProductDetailsDto>(newProduct);
 
             return new ResponseModel<ProductDetailsDto> { Data = productDto };
         }
@@ -134,8 +148,8 @@ namespace BTUProject.Service
         public async Task<IResponse<List<ProductsWithIdDto>>> GetProductsListWithTwoWeeksExpireDate(int days)
         {
 
-            var products = _db.WareHouse.Where(x => DateTime.Now.AddDays(days) > x.ExpiryDate && !x.IsDeleted).Select(x=>x.Product).ToList();
-            var responseList =new List<ProductsWithIdDto>();
+            var products = _db.WareHouse.Where(x => DateTime.Now.AddDays(days) > x.ExpiryDate && !x.IsDeleted).Select(x => x.Product).ToList();
+            var responseList = new List<ProductsWithIdDto>();
             foreach (var product in products)
             {
                 var model = new ProductsWithIdDto
@@ -150,7 +164,7 @@ namespace BTUProject.Service
             return new ResponseModel<List<ProductsWithIdDto>>()
             {
                 Data = responseList
-                   
+
             };
 
         }
