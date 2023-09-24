@@ -25,20 +25,25 @@ namespace BTUProject.Service
         }
 
 
-        public async Task<IResponse<OrderDetailsDto>> GetOrdersDetails(int id)
+        public async Task<IResponse<OrderDetailsDto>> GetOrdersDetails(int productId)
         {
-            var orderItem = _db.OrderItems.FirstOrDefault(x => x.ProductId == id && !x.IsDeleted);
+            var orderItem = _db.OrderItems.FirstOrDefault(x => x.ProductId == productId && !x.IsDeleted);
             if (orderItem == null)
             {
                 // Handle the case where the customer with the given id doesn't exist
                 return new ResponseModel<OrderDetailsDto> { Error = "Orders not found", Data = null };
             }
-
+            var newOrderItem = new OrderDetailsDto();
             var orderItemDto = _mapper.Map<OrderDetailsDto>(orderItem);
-            var realizationPrice = orderItem.Product.WareHouse.FirstOrDefault(x => x.ProductId == orderItem.ProductId).RealizationPrice;
-            orderItemDto.Value = (realizationPrice - orderItem.DiscountPrice) * orderItem.Quantity;
-
-            return new ResponseModel<OrderDetailsDto> { Data = orderItemDto };
+            var warehouse = _db.WareHouse.FirstOrDefault(x => x.ProductId == productId && !x.IsDeleted);
+            var product = _db.Product.FirstOrDefault(p => p.Id == productId);
+            var realizationPrice = warehouse.RealizationPrice;
+            newOrderItem.Value = (realizationPrice - orderItem.DiscountPrice) * orderItem.Quantity;
+            newOrderItem.Name = product.Name;
+            newOrderItem.Code = product.Code;
+            newOrderItem.CategoryId = product.CategoryId;
+            newOrderItem.OrderId = orderItemDto.OrderId;
+            return new ResponseModel<OrderDetailsDto> { Data = newOrderItem };
         }
 
         public async Task<IResponse<bool>> CreateOrder(OrderDto model)
